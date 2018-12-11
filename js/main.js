@@ -16,17 +16,71 @@
 
 function arrayPath(rows, columns, rStart, cStart) {
     let arrCord = [];
-    let currentRow = 3;
-    let currentColumn = 3;
+    let currentRow = rStart;
+    let currentColumn = cStart;
+    let path = [];
 
-// кожен елемент масиву зроблений масивом
-    for(let i = 0; i < rows; i++) {
+    for (let i = 0; i < rows; i++) {
         arrCord[i] = new Array(columns).fill(0);
     }
+
+    let sideLength = 1;
+    let sideCurrent = 0;
+    let turnCount = 0;
+
+    let direction = 0;
+
+    let test = 0;
+
+    do {
+        test++;
+        path.push([currentRow, currentColumn]);
+        console.log([currentRow, currentColumn]);
+        if (arrCord[currentRow][currentColumn]) {
+            arrCord[currentRow][currentColumn] = 1;
+        }
+        sideCurrent++;
+        if (sideCurrent === sideLength) {
+            sideCurrent = 0;
+            turnCount++;
+            direction++;
+            if (turnCount === 4) {
+                sideLength++;
+                turnCount = 0;
+            }
+            if (direction === 3) {
+                direction = 0;
+            }
+            if (sideLength === 1 && turnCount === 2) {
+                sideLength++
+            }
+        }
+
+        switch (direction) {
+            case 0:
+                currentColumn++;
+                break;
+            case 1:
+                currentRow++;
+                break;
+            case 2:
+                currentColumn--;
+                break;
+            case 3:
+                currentRow--;
+                break;
+        }
+
+    } while ((arrCord[0][0] === 0 &&
+        arrCord[0][columns - 1] === 0 &&
+        arrCord[rows - 1][0] === 0 &&
+        arrCord[rows - 1][columns -1] === 0) || test <= 100 );
+
+
+
+
     return arrCord;
-
-
 }
-let array = arrayPath(6, 6);
+let array = arrayPath(4, 4, 2, 2);
 console.log(array);
 
